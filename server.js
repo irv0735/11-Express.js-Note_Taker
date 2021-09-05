@@ -50,7 +50,7 @@ const readAndAppend = (content, file) => {
 
 // GET Route for retrieving all saved notes
 app.get('/api/notes', (req, res) => {
-  res.json(db);
+  res.sendFile(path.join(__dirname, '/db/db.json'))
 });
 
 // POST Route for a new note
