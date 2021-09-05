@@ -91,6 +91,10 @@ app.delete('/api/notes/:id', (req, res) => {
 });
 
 // GET Route for homepage
+app.get('/', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/index.html'))
+);
+// GET Route for catch all
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
 );
