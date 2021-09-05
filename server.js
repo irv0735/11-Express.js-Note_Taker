@@ -19,11 +19,6 @@ app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
-// GET Route for homepage
-app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
-);
-
 /**
  *  Function to write data to the JSON file given a destination and some content
  *  @param {string} destination The file you want to write to.
@@ -55,21 +50,18 @@ const readAndAppend = (content, file) => {
 
 // GET Route for retrieving all saved notes
 app.get('/api/notes', (req, res) => {
-  console.info(`${req.method} request received for notes`);
-  res.json(db)
-})
+  res.json(db);
+});
 
 // POST Route for a new note
 app.post('/api/notes', (req, res) => {
-  console.info(`${req.method} request received to add a note`);
-
   const { title, text } = req.body;
 
   if (req.body) {
     const newNote = {
       title,
       text,
-      note_id: uuid(),
+      id: uuid(),
     };
 
     readAndAppend(newNote, './db/db.json');
@@ -78,6 +70,31 @@ app.post('/api/notes', (req, res) => {
     res.error('Error in adding note');
   }
 });
+
+// DELETE Route for deleting a note based on ID
+app.delete('/api/notes/:id', (req, res) => {
+  const selectedNote = req.params.id;
+  console.log(`Delete request received for note: ${selectedNote}`)
+  fs.readFile('./db/db.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      const parsedData = JSON.parse(data);
+      parsedData.forEach((element, i) => {
+        if (selectedNote === element.id) {
+          parsedData.splice(i, 1)
+        };
+      });
+      writeToFile('./db/db.json', parsedData);
+      res.json(`Note deleted successfully`);
+    };
+  });
+});
+
+// GET Route for homepage
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/index.html'))
+);
 
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)

@@ -4,18 +4,8 @@
         "text": "Test text"
     },
     {
-        "title": "Testing",
-        "text": "How are you today? ",
-        "note_id": "8c18"
-    },
-    {
-        "title": "Bazinga",
-        "text": "Still working on rendering notes from storage.",
-        "note_id": "d837"
-    },
-    {
-        "title": "Fix note list",
-        "text": "The list is not rendering on the page when notes is loaded.",
-        "note_id": "d227"
+        "title": "bank run",
+        "text": "put that money in the bank! ",
+        "id": "da17"
     }
 ]
