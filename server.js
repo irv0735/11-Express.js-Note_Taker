@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const util = require('util');
+const db = require('./db/db.json');
 
 // Helper method for generating unique ids
 const uuid = require('./helpers/uuid');
@@ -11,8 +11,8 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static('public'));
+
 
 // GET Route for notes page
 app.get('/notes', (req, res) =>
@@ -53,11 +53,11 @@ const readAndAppend = (content, file) => {
  });
 };
 
-// GET Route for retrieving all the notes
+// GET Route for retrieving all saved notes
 app.get('/api/notes', (req, res) => {
   console.info(`${req.method} request received for notes`);
-  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
-});
+  res.json(db)
+})
 
 // POST Route for a new note
 app.post('/api/notes', (req, res) => {
